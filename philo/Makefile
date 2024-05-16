@@ -22,7 +22,7 @@ clean:
 	rm -rf $(OBJECTS_FOLDER)
 
 fclean: clean
-	rm -rf $(NAME) $(BONUS)
+	rm -rf $(NAME)
 
 re: fclean all
 
