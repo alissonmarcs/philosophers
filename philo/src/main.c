@@ -2,6 +2,9 @@
 
 int main(void)
 {
-	printf("hello world\n");
+	pthread_t t1;
+
+	pthread_create(&t1, NULL, logger, &(t_philo) {.state = SLEEPING});
+	pthread_join(t1, NULL);
 	return 0;
 }
