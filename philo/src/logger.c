@@ -24,7 +24,7 @@ void	*logger(void *param)
 
 int	ft_strlen(char *s)
 {
-	char*start;
+	char	*start;
 
 	start = s;
 	while (*s)
