@@ -50,7 +50,6 @@ struct s_fork
 	int				id;
 };
 
-
 int				ft_strlen(char *s);
 void			*logger(void *param);
 
