@@ -1,15 +1,16 @@
 #include <philo.h>
 
+long get_time(void)
+{
+	struct timeval time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
 int main(void)
 {
-	pthread_t t1;
 
-	pthread_create(&t1, NULL, logger, &(t_philo) {.state = THINKING});
-	pthread_create(&t1, NULL, logger, &(t_philo) {.state = SLEEPING});
-	pthread_create(&t1, NULL, logger, &(t_philo) {.state = DIED});
-	pthread_create(&t1, NULL, logger, &(t_philo) {.state = EATING});
-	pthread_create(&t1, NULL, logger, &(t_philo) {.state = TAKEN_FORK});
-	pthread_join(t1, NULL);
-
+	printf("%lu\n", get_time());
 	return 0;
 }

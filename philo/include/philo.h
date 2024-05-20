@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <sys/time.h>
 
 # define YELLOW "\001\033[1;33m\002"
 # define GREEN "\001\033[1;32m\002"
@@ -33,6 +34,10 @@ struct s_data
 {
 	int				philo_nbr;
 	int				fork_nbr;
+	int				max_meals;
+	long			die_time;
+	long			eat_time;
+	long			sleep_time;
 	t_philo 		*philos;
 	t_fork			*forks;
 };
