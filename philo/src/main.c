@@ -1,16 +1,11 @@
 #include <philo.h>
 
-long get_time(void)
+int	main(int argc, char **argv)
 {
-	struct timeval time;
+	t_data	data;
 
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
-}
-
-int main(void)
-{
-
-	printf("%lu\n", get_time());
-	return 0;
+	if (!check_argv(argc, argv))
+		return (EXIT_FAILURE);
+	init_data(&data, argv);
+	return (EXIT_SUCCESS);
 }

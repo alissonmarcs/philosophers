@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <sys/time.h>
 
 # define YELLOW "\001\033[1;33m\002"
@@ -48,14 +49,20 @@ struct s_philo
 	bool			action_done;
 	t_states		state;
 	t_data			*data;
+	pthread_t		th;
 };
 
 struct s_fork
 {
-	int				id;
+	int						id;
+	pthread_mutex_t			mtx;
 };
 
 int				ft_strlen(char *s);
 void			*logger(void *param);
+long			get_time(void);
+long			ft_atol(const char *str);
+bool			check_argv(int argc, char **argv);
+void			init_data(t_data *data, char **argv);
 
 #endif
