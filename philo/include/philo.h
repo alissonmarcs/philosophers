@@ -39,6 +39,8 @@ struct s_philo
 	int				id;
 	bool			action_done;
 	t_states		state;
+	t_fork			*own;
+	t_fork			*additional;
 	t_data			*data;
 	pthread_t		th;
 };
@@ -55,6 +57,7 @@ long			get_time(void);
 long			ft_atol(const char *str);
 bool			check_argv(int argc, char **argv);
 void			init_data(t_data *data, char **argv);
+void			debug(t_data *data);
 
 # define YELLOW "\001\033[1;33m\002"
 # define GREEN "\001\033[1;32m\002"

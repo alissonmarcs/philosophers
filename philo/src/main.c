@@ -7,5 +7,6 @@ int	main(int argc, char **argv)
 	if (!check_argv(argc, argv))
 		return (EXIT_FAILURE);
 	init_data(&data, argv);
+	debug(&data);
 	return (EXIT_SUCCESS);
 }
