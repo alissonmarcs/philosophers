@@ -1,6 +1,19 @@
 #include <philo.h>
 
-void init_forks(t_data *data)
+static void	init_forks(t_data *data);
+static void	init_philos(t_data *data);
+static void	save_argv(t_data *data, char **argv);
+
+void	init_data(t_data *data, char **argv)
+{
+	save_argv(data, argv);
+	data->philos = malloc(sizeof (t_philo) * data->philo_nbr);
+	data->forks = malloc(sizeof (t_fork) * data->fork_nbr);
+	init_forks(data);
+	init_philos(data);
+}
+
+static void	init_forks(t_data *data)
 {
 	int			i;
 	t_fork		*current;
@@ -14,7 +27,7 @@ void init_forks(t_data *data)
 	}
 }
 
-void	save_argv(t_data *data, char **argv)
+static void	save_argv(t_data *data, char **argv)
 {
 	data->philo_nbr = ft_atol(argv[1]);
 	data->fork_nbr = data->philo_nbr;
@@ -27,13 +40,16 @@ void	save_argv(t_data *data, char **argv)
 		data->max_meals = -1;
 }
 
-void	init_data(t_data *data, char **argv)
+static void	init_philos(t_data *data)
 {
-	int	i;
+	int			i;
+	t_philo		*current;
 
-	save_argv(data, argv);
-	data->philos = malloc(sizeof (t_philo) * data->philo_nbr);
-	data->forks = malloc(sizeof (t_fork) * data->fork_nbr);
 	i = -1;
-	init_forks(data);
+	while (++i < data->philo_nbr)
+	{
+		current = data->philos + i;
+		current->id = i + 1;
+		current->data = data;
+	}
 }

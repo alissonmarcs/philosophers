@@ -4,7 +4,7 @@ CFLAGS = -Wall -Werror -Wextra -g3 -O0
 OBJECTS_FOLDER = ./obj/
 HEADERS = ./include/
 
-MANDATORY_SOURCES = main.c logger.c utils.c check_args.c inits.c
+MANDATORY_SOURCES = main.c write_action.c utils.c check_args.c inits.c
 MANDATORY_OBJECTS = $(addprefix $(OBJECTS_FOLDER),$(MANDATORY_SOURCES:.c=.o))
 
 all: $(OBJECTS_FOLDER) $(NAME)

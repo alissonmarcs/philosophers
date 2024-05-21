@@ -8,15 +8,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-# define YELLOW "\001\033[1;33m\002"
-# define GREEN "\001\033[1;32m\002"
-# define RED "\001\033[1;31m\002"
-# define BLUE "\001\033[1;94m\002"
-# define PURPLE "\001\033[1;35m\002"
-# define CYAN "\001\033[1;36m\002"
-# define WHITE "\001\033[1;37m\002"
-# define RESET "\001\033[0m\002"
-
 typedef struct s_data t_data;
 typedef struct s_fork t_fork;
 typedef struct s_philo t_philo;
@@ -59,10 +50,19 @@ struct s_fork
 };
 
 int				ft_strlen(char *s);
-void			*logger(void *param);
+void			*write_action(void *param);
 long			get_time(void);
 long			ft_atol(const char *str);
 bool			check_argv(int argc, char **argv);
 void			init_data(t_data *data, char **argv);
+
+# define YELLOW "\001\033[1;33m\002"
+# define GREEN "\001\033[1;32m\002"
+# define RED "\001\033[1;31m\002"
+# define BLUE "\001\033[1;94m\002"
+# define PURPLE "\001\033[1;35m\002"
+# define CYAN "\001\033[1;36m\002"
+# define WHITE "\001\033[1;37m\002"
+# define RESET "\001\033[0m\002"
 
 #endif

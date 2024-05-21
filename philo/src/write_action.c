@@ -1,6 +1,6 @@
 #include <philo.h>
 
-void	*logger(void *param)
+void	*write_action(void *param)
 {
 	char		*string;
 	t_philo		*philo;

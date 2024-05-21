@@ -29,12 +29,15 @@ static bool	validate_times(char **argv)
 
 static void	print_helper(void)
 {
-	printf("Invalid arguments.\n");
-	printf("Example of usage: ./philo [number_of_philosophers] "
-		"[time_to_die] [time_to_eat] [time_to_sleep] "
-		"[number_of_times_each_philosopher_must_eat] (optional)\n");
-	printf("Value for [number_of_philosophers] must be between 1 and 200.\n");
-	printf("Values for [time_to_die] [time_to_eat] and [time_to_sleep] "
-		"will be considered in milliseconds and minimum value for them "
-		"are 60.\n");
+	printf("%sInvalid arguments.\n", RED);
+	printf("%sExample of usage: ", CYAN);
+	printf("%s./philo ", WHITE);
+	printf("%s[number_of_philosophers] [time_to_die] [time_to_eat]"
+		" [time_to_sleep] [number_of_times_each_philosopher_must_eat]", BLUE);
+	printf(" %s(optional)\n", WHITE);
+	printf("%sValue for %s[number_of_philosophers]%s must be between 1 and 200"
+		".\n", YELLOW, BLUE, YELLOW);
+	printf("Values for %s[time_to_die] [time_to_eat] %sand %s[time_to_sleep] "
+		"%swill be considered in milliseconds and minimum value for them "
+		"are 60.\n%s", BLUE, YELLOW, BLUE, YELLOW, RESET);
 }
