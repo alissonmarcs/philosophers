@@ -1,25 +1,28 @@
 #include <philo.h>
 
-void	*write_action(void *param)
+void	write_action(int id, long time, t_states state)
 {
 	char		*string;
-	t_philo		*philo;
 
-	philo = (t_philo *) param;
-	if (philo->state == TAKEN_FORK)
+	if (state == TAKEN_FORK)
 		string = CYAN "has taken a fork" RESET "\n";
-	else if (philo->state == EATING)
+	else if (state == EATING)
 		string = WHITE "is eating" RESET "\n";
-	else if (philo->state == SLEEPING)
+	else if (state == SLEEPING)
 		string = BLUE "is sleeping" RESET "\n";
-	else if (philo->state == THINKING)
+	else if (state == THINKING)
 		string = YELLOW "is thinking" RESET "\n";
-	else if (philo->state == DIED)
+	else if (state == DIED)
 		string = RED "died" RESET "\n";
-	else
-		return (NULL);
-	write(1, string, ft_strlen(string));
-	return (NULL);
+	printf("%-6li""%d"" %s", time, id, string);
+}
+
+long	get_time_since_init(t_data *data)
+{
+	long	time;
+
+	time = get_time();
+	return (time - data->start_time);
 }
 
 int	ft_strlen(char *s)

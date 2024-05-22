@@ -7,6 +7,7 @@ static void	assign_forks(t_data *data);
 
 void	init_data(t_data *data, char **argv)
 {
+	data->start_time = get_time();
 	save_argv(data, argv);
 	data->philos = malloc(sizeof (t_philo) * data->philo_nbr);
 	data->forks = malloc(sizeof (t_fork) * data->fork_nbr);
@@ -73,5 +74,6 @@ static void	init_philos(t_data *data)
 		current = data->philos + i;
 		current->id = i + 1;
 		current->data = data;
+		current->last_eat_start_time = 0;
 	}
 }
