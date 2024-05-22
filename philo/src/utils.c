@@ -23,3 +23,16 @@ long	ft_atol(const char *str)
 		result = 10 * result + (*str++ - '0');
 	return (result * sign);
 }
+
+void	clear(t_data *data)
+{
+	int		i;
+	t_fork	*current;
+
+	current = data->forks;
+	i = data->fork_nbr;
+	while (i)
+		pthread_mutex_destroy(&current[--i].mtx);
+	free(data->philos);
+	free(data->forks);
+}

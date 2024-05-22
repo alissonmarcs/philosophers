@@ -8,5 +8,6 @@ int	main(int argc, char **argv)
 		return (EXIT_FAILURE);
 	init_data(&data, argv);
 	debug(&data);
-	return (EXIT_SUCCESS);
+	clear(&data);
+	return (42);
 }

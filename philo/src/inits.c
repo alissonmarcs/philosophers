@@ -3,6 +3,7 @@
 static void	init_forks(t_data *data);
 static void	init_philos(t_data *data);
 static void	save_argv(t_data *data, char **argv);
+static void	assign_forks(t_data *data);
 
 void	init_data(t_data *data, char **argv)
 {
@@ -11,6 +12,27 @@ void	init_data(t_data *data, char **argv)
 	data->forks = malloc(sizeof (t_fork) * data->fork_nbr);
 	init_forks(data);
 	init_philos(data);
+	assign_forks(data);
+}
+
+static void	assign_forks(t_data *data)
+{
+	int 		i;
+	t_philo		*current_philo;
+	t_fork		*current_fork;
+
+	i = data->fork_nbr - 1;
+	while (i >= 0)
+	{
+		current_philo = data->philos + i;
+		current_fork = data->forks + i;
+		current_philo->own = current_fork;
+		if (i == 0)
+			current_philo->additional = current_fork + (data->philo_nbr - 1);
+		else
+			current_philo->additional = current_fork - 1;
+		--i;
+	}
 }
 
 static void	init_forks(t_data *data)
