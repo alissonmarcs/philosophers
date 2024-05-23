@@ -75,6 +75,6 @@ static void	init_philos(t_data *data)
 		current = data->philos + i;
 		current->id = i + 1;
 		current->data = data;
-		current->last_eat_start_time = 0;
+		current->last_eat_start_time = -1;
 	}
 }
