@@ -1,6 +1,6 @@
 #include <philo.h>
 
-void	write_action(int id, long time, t_states state)
+void	write_action(t_philo *philo, t_states state)
 {
 	char		*string;
 
@@ -14,7 +14,11 @@ void	write_action(int id, long time, t_states state)
 		string = YELLOW "is thinking" RESET "\n";
 	else if (state == DIED)
 		string = RED "died" RESET "\n";
-	printf("%-6li""%d"" %s", time, id, string);
+	else
+		return ;
+	pthread_mutex_lock(&philo->data->write);
+	printf("%-6li""%d"" %s", get_time_since_init(philo->data), philo->id, string);
+	pthread_mutex_unlock(&philo->data->write);
 }
 
 long	get_time_since_init(t_data *data)

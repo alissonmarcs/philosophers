@@ -1,6 +1,5 @@
 NAME = philo
 CFLAGS = -Wall -Werror -Wextra -g3 -O0
-
 OBJECTS_FOLDER = ./obj/
 HEADERS = ./include/
 

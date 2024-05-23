@@ -14,6 +14,7 @@ void	init_data(t_data *data, char **argv)
 	init_forks(data);
 	init_philos(data);
 	assign_forks(data);
+	pthread_mutex_init(&data->write, NULL);
 }
 
 static void	assign_forks(t_data *data)

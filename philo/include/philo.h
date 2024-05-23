@@ -25,15 +25,16 @@ enum e_states
 
 struct s_data
 {
-	int				philo_nbr;
-	int				fork_nbr;
-	int				max_meals;
-	long			start_time;
-	long			die_time;
-	long			eat_time;
-	long			sleep_time;
-	t_philo 		*philos;
-	t_fork			*forks;
+	int						philo_nbr;
+	int						fork_nbr;
+	int						max_meals;
+	long					start_time;
+	long					die_time;
+	long					eat_time;
+	long					sleep_time;
+	pthread_mutex_t			write;
+	t_philo 				*philos;
+	t_fork					*forks;
 };
 
 struct s_philo
@@ -55,7 +56,7 @@ struct s_fork
 };
 
 int				ft_strlen(char *s);
-void			write_action(int id, long time, t_states state);
+void			write_action(t_philo *philo, t_states state);
 long			get_time(void);
 long			ft_atol(const char *str);
 bool			check_argv(int argc, char **argv);
@@ -64,6 +65,7 @@ void			debug(t_data *data);
 void			clear(t_data *data);
 long			 get_time_since_init(t_data *data);
 void			*philosopher(void *param);
+void			dinner(t_data *data);
 
 # define YELLOW "\001\033[1;33m\002"
 # define GREEN "\001\033[1;32m\002"
