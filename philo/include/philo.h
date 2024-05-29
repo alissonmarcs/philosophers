@@ -28,11 +28,11 @@ struct s_data
 	int							philo_nbr;
 	int							fork_nbr;
 	bool						philo_died;
-	const int					max_meals;
-	const long					start_time;
-	const long					die_time;
-	const long					eat_time;
-	const long					sleep_time;
+	int							max_meals;
+	long						start_time;
+	long						die_time;
+	long						eat_time;
+	long						sleep_time;
 	pthread_mutex_t				print_mtx;
 	pthread_mutex_t				data_mtx;
 	pthread_t					monitor;
