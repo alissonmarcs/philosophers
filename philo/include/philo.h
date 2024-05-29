@@ -42,7 +42,7 @@ struct s_data
 
 struct s_philo
 {
-	const int					index;
+	int							index;
 	long						last_eat_start_time;
 	bool						full;
 	t_status					status;

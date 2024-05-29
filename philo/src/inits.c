@@ -59,9 +59,9 @@ static void	save_argv(t_data *data, char **argv)
 	data->eat_time = ft_atol(argv[3]) * 1000;
 	data->sleep_time = ft_atol(argv[4]) * 1000;
 	if (argv[5])
-		*(int *) &data->max_meals = ft_atol(argv[5]);
+		data->max_meals = ft_atol(argv[5]);
 	else
-		*(int *) &data->max_meals = -1;
+		data->max_meals = -1;
 }
 
 static void	init_philos(t_data *data)
