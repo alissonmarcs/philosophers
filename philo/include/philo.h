@@ -70,6 +70,12 @@ long			 get_time_since_init(t_data *data);
 void			*philosopher(void *param);
 void			dinner(t_data *data);
 
+bool	getter_bool(pthread_mutex_t *mtx, bool *ptr);
+long	getter_long(pthread_mutex_t *mtx, long *ptr);
+void	setter_bool(pthread_mutex_t *mtx, bool *ptr, bool value);
+void	setter_long(pthread_mutex_t *mtx, long *ptr, long value);
+
+
 # define YELLOW "\001\033[1;33m\002"
 # define GREEN "\001\033[1;32m\002"
 # define RED "\001\033[1;31m\002"
