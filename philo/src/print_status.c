@@ -28,13 +28,3 @@ long	get_time_since_init(t_data *data)
 	time = get_time();
 	return (time - data->start_time);
 }
-
-int	ft_strlen(char *s)
-{
-	char	*start;
-
-	start = s;
-	while (*s)
-		s++;
-	return (s - start);
-}

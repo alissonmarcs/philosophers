@@ -59,7 +59,6 @@ struct s_fork
 	pthread_mutex_t			mtx;
 };
 
-int				ft_strlen(char *s);
 void			print_status(t_philo *philo, t_status status);
 long			get_time(void);
 long			ft_atol(const char *str);
