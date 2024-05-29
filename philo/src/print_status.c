@@ -23,8 +23,5 @@ void	print_status(t_philo *philo, t_status status)
 
 long	get_time_since_init(t_data *data)
 {
-	long	time;
-
-	time = get_time();
-	return (time - data->start_time);
+	return (get_time() - data->start_time);
 }
