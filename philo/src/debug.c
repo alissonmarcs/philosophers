@@ -10,7 +10,7 @@ void	debug(t_data *data)
 	while (++i < data->philo_nbr)
 	{
 		current = data->philos + i;
-		printf("\t\tPhilo id: %d\n", current->id);
+		printf("\t\tPhilo id: %d\n", current->index);
 		printf("\t\tForks:\n");
 		if (current->own)
 			printf("\t\t\tOwn fork id: %d\n", current->own->id);

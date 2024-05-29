@@ -1,24 +1,24 @@
 #include <philo.h>
 
-void	write_action(t_philo *philo, t_states state)
+void	print_status(t_philo *philo, t_status status)
 {
 	char		*string;
 
-	if (state == TAKEN_FORK)
+	if (status == TAKEN_FORK)
 		string = CYAN "has taken a fork" RESET "\n";
-	else if (state == EATING)
+	else if (status == EATING)
 		string = WHITE "is eating" RESET "\n";
-	else if (state == SLEEPING)
+	else if (status == SLEEPING)
 		string = BLUE "is sleeping" RESET "\n";
-	else if (state == THINKING)
+	else if (status == THINKING)
 		string = YELLOW "is thinking" RESET "\n";
-	else if (state == DIED)
+	else if (status == DIED)
 		string = RED "died" RESET "\n";
 	else
 		return ;
-	pthread_mutex_lock(&philo->data->write);
-	printf("%-6li""%d"" %s", get_time_since_init(philo->data), philo->id, string);
-	pthread_mutex_unlock(&philo->data->write);
+	pthread_mutex_lock(&philo->data->print_mtx);
+	printf("%-6li""%d"" %s", get_time_since_init(philo->data), philo->index, string);
+	pthread_mutex_unlock(&philo->data->print_mtx);
 }
 
 long	get_time_since_init(t_data *data)

@@ -9,12 +9,12 @@
 #include <sys/time.h>
 #include <string.h>
 
-typedef struct s_data t_data;
-typedef struct s_fork t_fork;
-typedef struct s_philo t_philo;
-typedef enum e_states t_states;
+typedef struct		s_data t_data;
+typedef struct		s_fork t_fork;
+typedef struct		s_philo t_philo;
+typedef enum		e_status t_status;
 
-enum e_states
+enum e_status
 {
 	TAKEN_FORK,
 	EATING,
@@ -25,28 +25,32 @@ enum e_states
 
 struct s_data
 {
-	int						philo_nbr;
-	int						fork_nbr;
-	int						max_meals;
-	long					start_time;
-	long					die_time;
-	long					eat_time;
-	long					sleep_time;
-	pthread_mutex_t			write;
-	t_philo 				*philos;
-	t_fork					*forks;
+	int							philo_nbr;
+	int							fork_nbr;
+	bool						philo_died;
+	const int					max_meals;
+	const long					start_time;
+	const long					die_time;
+	const long					eat_time;
+	const long					sleep_time;
+	pthread_mutex_t				print_mtx;
+	pthread_mutex_t				data_mtx;
+	pthread_t					monitor;
+	t_philo 					*philos;
+	t_fork						*forks;
 };
 
 struct s_philo
 {
-	int				id;
-	bool			action_done;
-	long			last_eat_start_time;
-	t_states		state;
-	t_fork			*own;
-	t_fork			*additional;
-	t_data			*data;
-	pthread_t		th;
+	const int					index;
+	long						last_eat_start_time;
+	bool						full;
+	t_status					status;
+	t_fork						*own;
+	t_fork						*additional;
+	t_data						*data;
+	pthread_t					th_id;
+	pthread_mutex_t				philo_mtx;
 };
 
 struct s_fork
@@ -56,7 +60,7 @@ struct s_fork
 };
 
 int				ft_strlen(char *s);
-void			write_action(t_philo *philo, t_states state);
+void			print_status(t_philo *philo, t_status status);
 long			get_time(void);
 long			ft_atol(const char *str);
 bool			check_argv(int argc, char **argv);
