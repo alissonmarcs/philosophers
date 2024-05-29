@@ -1,37 +1,37 @@
 #include <philo.h>
 
-void	ft_get_fork(t_philo *philo);
-
 void	*philosopher(void *param)
 {
 	t_philo *philo;
 
 	philo = (t_philo *) param;
+	while (!getter_bool(&philo->data->data_mtx, &philo->data->monitor_run))
+		;
+	increase_long(&philo->data->data_mtx, &philo->data->philos_running_cont);
 	while (true)
 	{
-		ft_get_fork(philo);
+		if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
+			return (NULL);
+		get_forks(philo);
+		philo->eat_count++;
+		setter_long(&philo->philo_mtx, &philo->last_eat_start_time, get_time());
 		print_status(philo, EATING);
 		usleep(philo->data->eat_time);
-		if (philo->last_eat_start_time == -1)
-			philo->last_eat_start_time = get_time() - philo->data->start_time;
-		else
-			philo->last_eat_start_time = get_time() - philo->last_eat_start_time;
-		if (philo->last_eat_start_time > philo->data->die_time)
-		{
-			print_status(philo, DIED);
-			return (NULL);
-		}
 		pthread_mutex_unlock(&philo->additional->mtx);
 		pthread_mutex_unlock(&philo->own->mtx);
 		print_status(philo, SLEEPING);
 		usleep(philo->data->sleep_time);
+		if (philo->eat_count == philo->data->max_meals)
+			break ;
 		print_status(philo, THINKING);
 	}
-	return ((void *) 42);
+	return (NULL);
 }
 
-void	ft_get_fork(t_philo *philo)
+void	get_forks(t_philo *philo)
 {
+	if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
+		return ;
 	if (philo->index % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->own->mtx);
@@ -48,6 +48,46 @@ void	ft_get_fork(t_philo *philo)
 	}
 }
 
+bool	all_philos_runnig(t_data *data)
+{
+	bool	tmp;
+
+	pthread_mutex_lock(&data->data_mtx);
+	tmp = (data->philos_running_cont == data->philo_nbr);
+	pthread_mutex_unlock(&data->data_mtx);
+	return (tmp);
+}
+
+void	*monitor(void *param)
+{
+	t_data	*data;
+	t_philo	*philo;
+	int		i;
+	long	time;
+	long	time_to_die;
+
+	data = (t_data *) param;
+	while (!all_philos_runnig(data))
+		;
+	time_to_die = getter_long(&data->data_mtx, &data->die_time);
+	while (!getter_bool(&data->data_mtx, &data->philo_died))
+	{
+		i = data->philo_nbr;
+		while (--i >= 0 && !getter_bool(&data->data_mtx, &data->philo_died))
+		{
+			philo = data->philos + i;
+			time = getter_long(&philo->philo_mtx, &philo->last_eat_start_time);
+			if (get_time() - time > time_to_die)
+			{
+				setter_bool(&data->data_mtx, &data->philo_died, true);
+				print_status(philo, DIED);
+				return (NULL);
+			}
+		}
+	}
+	return (NULL);
+}
+
 void	dinner(t_data *data)
 {
 	t_philo		*current;
@@ -60,6 +100,8 @@ void	dinner(t_data *data)
 		pthread_create(&current->th_id, NULL, philosopher, current);
 		i--;
 	}
+	pthread_create(&data->monitor, NULL, monitor, data);
+	setter_bool(&data->data_mtx, &data->monitor_run, true);
 	i = data->philo_nbr - 1;
 	while (i >= 0)
 	{
@@ -67,4 +109,6 @@ void	dinner(t_data *data)
 		pthread_join(current->th_id, NULL);
 		i--;
 	}
+	setter_bool(&data->data_mtx, &data->philo_died, true);
+	pthread_join(data->monitor, NULL);
 }

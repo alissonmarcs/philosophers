@@ -4,6 +4,8 @@ void	print_status(t_philo *philo, t_status status)
 {
 	char		*string;
 
+	if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died) && status != DIED)
+		return ;
 	if (status == TAKEN_FORK)
 		string = CYAN "has taken a fork" RESET "\n";
 	else if (status == EATING)

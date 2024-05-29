@@ -27,12 +27,17 @@ long	ft_atol(const char *str)
 void	clear(t_data *data)
 {
 	int		i;
-	t_fork	*current;
+	t_fork	*forks;
+	t_philo	*philos;
 
-	current = data->forks;
+	forks = data->forks;
+	philos = data->philos;
 	i = data->fork_nbr;
 	while (i)
-		pthread_mutex_destroy(&current[--i].mtx);
+		pthread_mutex_destroy(&forks[--i].mtx);
+	i = data->philo_nbr;
+	while (i)
+		pthread_mutex_destroy(&philos[--i].philo_mtx);
 	free(data->philos);
 	free(data->forks);
 }

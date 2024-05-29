@@ -29,6 +29,7 @@ struct s_data
 	int							fork_nbr;
 	bool						philo_died;
 	int							max_meals;
+	long						philos_running_cont;
 	long						start_time;
 	long						die_time;
 	long						eat_time;
@@ -36,6 +37,7 @@ struct s_data
 	pthread_mutex_t				print_mtx;
 	pthread_mutex_t				data_mtx;
 	pthread_t					monitor;
+	bool						monitor_run;
 	t_philo 					*philos;
 	t_fork						*forks;
 };
@@ -43,6 +45,7 @@ struct s_data
 struct s_philo
 {
 	int							index;
+	long						eat_count;
 	long						last_eat_start_time;
 	bool						full;
 	t_status					status;
@@ -69,12 +72,13 @@ void			clear(t_data *data);
 long			 get_time_since_init(t_data *data);
 void			*philosopher(void *param);
 void			dinner(t_data *data);
+void			get_forks(t_philo *philo);
 
-bool	getter_bool(pthread_mutex_t *mtx, bool *ptr);
-long	getter_long(pthread_mutex_t *mtx, long *ptr);
-void	setter_bool(pthread_mutex_t *mtx, bool *ptr, bool value);
-void	setter_long(pthread_mutex_t *mtx, long *ptr, long value);
-
+bool			getter_bool(pthread_mutex_t *mtx, bool *ptr);
+long			getter_long(pthread_mutex_t *mtx, long *ptr);
+void			setter_bool(pthread_mutex_t *mtx, bool *ptr, bool value);
+void			setter_long(pthread_mutex_t *mtx, long *ptr, long value);
+void			increase_long(pthread_mutex_t *mtx, long *ptr);
 
 # define YELLOW "\001\033[1;33m\002"
 # define GREEN "\001\033[1;32m\002"

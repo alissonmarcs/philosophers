@@ -33,3 +33,10 @@ void	setter_long(pthread_mutex_t *mtx, long *ptr, long value)
 	*ptr = value;
 	pthread_mutex_unlock(mtx);
 }
+
+void	increase_long(pthread_mutex_t *mtx, long *ptr)
+{
+	pthread_mutex_lock(mtx);
+	(*ptr)++;
+	pthread_mutex_unlock(mtx);
+}

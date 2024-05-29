@@ -7,14 +7,20 @@ static void	assign_forks(t_data *data);
 
 void	init_data(t_data *data, char **argv)
 {
+	pthread_mutex_init(&data->data_mtx, NULL);
+	pthread_mutex_lock(&data->data_mtx);
 	save_argv(data, argv);
-	data->start_time = get_time();
 	data->philos = malloc(sizeof (t_philo) * data->philo_nbr);
 	data->forks = malloc(sizeof (t_fork) * data->fork_nbr);
+	data->monitor_run = false;
+	data->philo_died = false;
 	init_forks(data);
-	init_philos(data);
 	assign_forks(data);
 	pthread_mutex_init(&data->print_mtx, NULL);
+	data->philos_running_cont = 0;
+	data->start_time = get_time();
+	init_philos(data);
+	pthread_mutex_unlock(&data->data_mtx);
 }
 
 static void	assign_forks(t_data *data)
@@ -55,7 +61,7 @@ static void	save_argv(t_data *data, char **argv)
 {
 	data->philo_nbr = ft_atol(argv[1]);
 	data->fork_nbr = data->philo_nbr;
-	data->die_time = ft_atol(argv[2]) * 1000;
+	data->die_time = ft_atol(argv[2]);
 	data->eat_time = ft_atol(argv[3]) * 1000;
 	data->sleep_time = ft_atol(argv[4]) * 1000;
 	if (argv[5])
@@ -73,8 +79,10 @@ static void	init_philos(t_data *data)
 	while (++i < data->philo_nbr)
 	{
 		current = data->philos + i;
-		*(int *) &current->index = i + 1;
+		current->index = i + 1;
 		current->data = data;
-		current->last_eat_start_time = -1;
+		current->last_eat_start_time = data->start_time;
+		current->eat_count = 0;
+		pthread_mutex_init(&current->philo_mtx, NULL);
 	}
 }
