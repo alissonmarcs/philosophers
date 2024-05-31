@@ -19,11 +19,16 @@ void	*philosopher(void *param)
 		usleep(philo->data->eat_time);
 		pthread_mutex_unlock(&philo->additional->mtx);
 		pthread_mutex_unlock(&philo->own->mtx);
+		if (philo->eat_count == philo->data->max_meals)
+		{
+			setter_bool(&philo->philo_mtx, &philo->full, true);
+			break ;
+		}
 		print_status(philo, SLEEPING);
 		usleep(philo->data->sleep_time);
-		if (philo->eat_count == philo->data->max_meals)
-			break ;
 		print_status(philo, THINKING);
+		if (philo->data->philo_nbr % 2 != 0 && philo->index % 2 != 0)
+			usleep(500);
 	}
 	return (NULL);
 }
@@ -67,9 +72,9 @@ void	*monitor(void *param)
 	long	time_to_die;
 
 	data = (t_data *) param;
+	time_to_die = data->die_time;
 	while (!all_philos_runnig(data))
 		;
-	time_to_die = getter_long(&data->data_mtx, &data->die_time);
 	while (!getter_bool(&data->data_mtx, &data->philo_died))
 	{
 		i = data->philo_nbr;
@@ -77,7 +82,7 @@ void	*monitor(void *param)
 		{
 			philo = data->philos + i;
 			time = getter_long(&philo->philo_mtx, &philo->last_eat_start_time);
-			if (get_time() - time > time_to_die)
+			if (!getter_bool(&philo->philo_mtx, &philo->full) && get_time() - time > time_to_die)
 			{
 				setter_bool(&data->data_mtx, &data->philo_died, true);
 				print_status(philo, DIED);

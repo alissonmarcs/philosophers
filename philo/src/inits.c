@@ -21,6 +21,7 @@ void	init_data(t_data *data, char **argv)
 	data->start_time = get_time();
 	init_philos(data);
 	pthread_mutex_unlock(&data->data_mtx);
+	//debug(data);
 }
 
 static void	assign_forks(t_data *data)
@@ -83,6 +84,7 @@ static void	init_philos(t_data *data)
 		current->data = data;
 		current->last_eat_start_time = data->start_time;
 		current->eat_count = 0;
+		current->full = false;
 		pthread_mutex_init(&current->philo_mtx, NULL);
 	}
 }
