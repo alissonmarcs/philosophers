@@ -1,6 +1,41 @@
 #include <philo.h>
 
-void	*philosopher(void *param)
+static void	*philosopher(void *param);
+static void	get_forks(t_philo *philo);
+static bool	all_philos_runnig(t_data *data);
+static void	*monitor(void *param);
+
+void	dinner(t_data *data)
+{
+	t_philo		*current;
+	int			i;
+
+	if (data->philo_nbr == 1)
+	{
+		simulate_single_philosopher(data);
+		return ;
+	}
+	i = data->philo_nbr - 1;
+	while (i >= 0)
+	{
+		current = data->philos + i;
+		pthread_create(&current->th_id, NULL, philosopher, current);
+		i--;
+	}
+	pthread_create(&data->monitor, NULL, monitor, data);
+	setter_bool(&data->data_mtx, &data->monitor_run, true);
+	i = data->philo_nbr - 1;
+	while (i >= 0)
+	{
+		current = data->philos + i;
+		pthread_join(current->th_id, NULL);
+		i--;
+	}
+	setter_bool(&data->data_mtx, &data->philo_died, true);
+	pthread_join(data->monitor, NULL);
+}
+
+static void	*philosopher(void *param)
 {
 	t_philo *philo;
 
@@ -33,37 +68,7 @@ void	*philosopher(void *param)
 	return (NULL);
 }
 
-void	get_forks(t_philo *philo)
-{
-	if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
-		return ;
-	if (philo->index % 2 == 0)
-	{
-		pthread_mutex_lock(&philo->own->mtx);
-		print_status(philo, TAKEN_FORK);
-		pthread_mutex_lock(&philo->additional->mtx);
-		print_status(philo, TAKEN_FORK);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->additional->mtx);
-		print_status(philo, TAKEN_FORK);
-		pthread_mutex_lock(&philo->own->mtx);
-		print_status(philo, TAKEN_FORK);
-	}
-}
-
-bool	all_philos_runnig(t_data *data)
-{
-	bool	tmp;
-
-	pthread_mutex_lock(&data->data_mtx);
-	tmp = (data->philos_running_cont == data->philo_nbr);
-	pthread_mutex_unlock(&data->data_mtx);
-	return (tmp);
-}
-
-void	*monitor(void *param)
+static void	*monitor(void *param)
 {
 	t_data	*data;
 	t_philo	*philo;
@@ -93,27 +98,33 @@ void	*monitor(void *param)
 	return (NULL);
 }
 
-void	dinner(t_data *data)
-{
-	t_philo		*current;
-	int			i;
 
-	i = data->philo_nbr - 1;
-	while (i >= 0)
+static void	get_forks(t_philo *philo)
+{
+	if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
+		return ;
+	if (philo->index % 2 == 0)
 	{
-		current = data->philos + i;
-		pthread_create(&current->th_id, NULL, philosopher, current);
-		i--;
+		pthread_mutex_lock(&philo->own->mtx);
+		print_status(philo, TAKEN_FORK);
+		pthread_mutex_lock(&philo->additional->mtx);
+		print_status(philo, TAKEN_FORK);
 	}
-	pthread_create(&data->monitor, NULL, monitor, data);
-	setter_bool(&data->data_mtx, &data->monitor_run, true);
-	i = data->philo_nbr - 1;
-	while (i >= 0)
+	else
 	{
-		current = data->philos + i;
-		pthread_join(current->th_id, NULL);
-		i--;
+		pthread_mutex_lock(&philo->additional->mtx);
+		print_status(philo, TAKEN_FORK);
+		pthread_mutex_lock(&philo->own->mtx);
+		print_status(philo, TAKEN_FORK);
 	}
-	setter_bool(&data->data_mtx, &data->philo_died, true);
-	pthread_join(data->monitor, NULL);
+}
+
+static bool	all_philos_runnig(t_data *data)
+{
+	bool	tmp;
+
+	pthread_mutex_lock(&data->data_mtx);
+	tmp = (data->philos_running_cont == data->philo_nbr);
+	pthread_mutex_unlock(&data->data_mtx);
+	return (tmp);
 }

@@ -69,10 +69,9 @@ bool			check_argv(int argc, char **argv);
 void			init_data(t_data *data, char **argv);
 void			debug(t_data *data);
 void			clear(t_data *data);
-long			 get_time_since_init(t_data *data);
-void			*philosopher(void *param);
+long			get_time_since_init(t_data *data);
 void			dinner(t_data *data);
-void			get_forks(t_philo *philo);
+void			simulate_single_philosopher(t_data *data);
 
 bool			getter_bool(pthread_mutex_t *mtx, bool *ptr);
 long			getter_long(pthread_mutex_t *mtx, long *ptr);
