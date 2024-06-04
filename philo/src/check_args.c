@@ -24,6 +24,8 @@ static bool	validate_times(char **argv)
 		return (false);
 	else if (ft_atol(argv[4]) < 60)
 		return (false);
+	else if (argv[5] && ft_atol(argv[5]) <= 0)
+		return (false);
 	return (true);
 }
 

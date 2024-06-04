@@ -52,13 +52,23 @@ static void	*philosopher(void *param)
 		setter_long(&philo->philo_mtx, &philo->last_eat_start_time, get_time());
 		print_status(philo, EATING);
 		usleep(philo->data->eat_time);
-		pthread_mutex_unlock(&philo->additional->mtx);
-		pthread_mutex_unlock(&philo->own->mtx);
+		if (philo->index % 2 == 0)
+		{
+			pthread_mutex_unlock(&philo->own->mtx);
+			pthread_mutex_unlock(&philo->additional->mtx);
+		}
+		else
+		{
+			pthread_mutex_unlock(&philo->additional->mtx);
+			pthread_mutex_unlock(&philo->own->mtx);			
+		}
 		if (philo->eat_count == philo->data->max_meals)
 		{
 			setter_bool(&philo->philo_mtx, &philo->full, true);
 			break ;
 		}
+		if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
+			return (NULL);
 		print_status(philo, SLEEPING);
 		usleep(philo->data->sleep_time);
 		print_status(philo, THINKING);
@@ -97,7 +107,6 @@ static void	*monitor(void *param)
 	}
 	return (NULL);
 }
-
 
 static void	get_forks(t_philo *philo)
 {
