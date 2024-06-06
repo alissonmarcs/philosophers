@@ -1,7 +1,7 @@
 #include <philo.h>
 
 static void	*philosopher(void *param);
-static void	get_forks(t_philo *philo);
+//static void	get_forks(t_philo *philo);
 static bool	all_philos_runnig(t_data *data);
 static void	*monitor(void *param);
 
@@ -36,6 +36,42 @@ void	dinner(t_data *data)
 	pthread_join(data->monitor, NULL);
 }
 
+void	eat(t_philo *philo)
+{
+	if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
+		return ;
+	if (philo->index % 2 == 0)
+	{
+		pthread_mutex_lock(&philo->own->mtx);
+		print_status(philo, TAKEN_FORK);
+		pthread_mutex_lock(&philo->additional->mtx);
+		print_status(philo, TAKEN_FORK);
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->additional->mtx);
+		print_status(philo, TAKEN_FORK);
+		pthread_mutex_lock(&philo->own->mtx);
+		print_status(philo, TAKEN_FORK);
+	}
+	philo->eat_count++;
+	setter_long(&philo->philo_mtx, &philo->last_eat_start_time, get_time());
+	print_status(philo, EATING);
+	usleep(philo->data->eat_time);
+	if (philo->index % 2 == 0)
+	{
+		pthread_mutex_unlock(&philo->own->mtx);
+		pthread_mutex_unlock(&philo->additional->mtx);
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->additional->mtx);
+		pthread_mutex_unlock(&philo->own->mtx);			
+	}
+	if (philo->eat_count == philo->data->max_meals)
+		setter_bool(&philo->philo_mtx, &philo->full, true);
+}
+
 static void	*philosopher(void *param)
 {
 	t_philo *philo;
@@ -49,26 +85,8 @@ static void	*philosopher(void *param)
 	{
 		if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
 			return (NULL);
-		get_forks(philo);
-		philo->eat_count++;
-		setter_long(&philo->philo_mtx, &philo->last_eat_start_time, get_time());
-		print_status(philo, EATING);
-		usleep(philo->data->eat_time);
-		if (philo->index % 2 == 0)
-		{
-			pthread_mutex_unlock(&philo->own->mtx);
-			pthread_mutex_unlock(&philo->additional->mtx);
-		}
-		else
-		{
-			pthread_mutex_unlock(&philo->additional->mtx);
-			pthread_mutex_unlock(&philo->own->mtx);			
-		}
-		if (philo->eat_count == philo->data->max_meals)
-		{
-			setter_bool(&philo->philo_mtx, &philo->full, true);
-			break ;
-		}
+		//get_forks(philo);
+		eat(philo);
 		if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
 			return (NULL);
 		print_status(philo, SLEEPING);
@@ -110,25 +128,25 @@ static void	*monitor(void *param)
 	return (NULL);
 }
 
-static void	get_forks(t_philo *philo)
-{
-	if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
-		return ;
-	if (philo->index % 2 == 0)
-	{
-		pthread_mutex_lock(&philo->own->mtx);
-		print_status(philo, TAKEN_FORK);
-		pthread_mutex_lock(&philo->additional->mtx);
-		print_status(philo, TAKEN_FORK);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->additional->mtx);
-		print_status(philo, TAKEN_FORK);
-		pthread_mutex_lock(&philo->own->mtx);
-		print_status(philo, TAKEN_FORK);
-	}
-}
+// static void	get_forks(t_philo *philo)
+// {
+// 	if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
+// 		return ;
+// 	if (philo->index % 2 == 0)
+// 	{
+// 		pthread_mutex_lock(&philo->own->mtx);
+// 		print_status(philo, TAKEN_FORK);
+// 		pthread_mutex_lock(&philo->additional->mtx);
+// 		print_status(philo, TAKEN_FORK);
+// 	}
+// 	else
+// 	{
+// 		pthread_mutex_lock(&philo->additional->mtx);
+// 		print_status(philo, TAKEN_FORK);
+// 		pthread_mutex_lock(&philo->own->mtx);
+// 		print_status(philo, TAKEN_FORK);
+// 	}
+// }
 
 static bool	all_philos_runnig(t_data *data)
 {
