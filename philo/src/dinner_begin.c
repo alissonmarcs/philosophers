@@ -22,6 +22,7 @@ void	dinner(t_data *data)
 		pthread_create(&current->th_id, NULL, philosopher, current);
 		i--;
 	}
+	setter_long(&data->data_mtx, &data->start_time, get_time());
 	pthread_create(&data->monitor, NULL, monitor, data);
 	setter_bool(&data->data_mtx, &data->monitor_run, true);
 	i = data->philo_nbr - 1;
@@ -42,6 +43,7 @@ static void	*philosopher(void *param)
 	philo = (t_philo *) param;
 	while (!getter_bool(&philo->data->data_mtx, &philo->data->monitor_run))
 		;
+	setter_long(&philo->philo_mtx, &philo->last_eat_start_time, philo->data->start_time);
 	increase_long(&philo->data->data_mtx, &philo->data->philos_running_cont);
 	while (true)
 	{
@@ -72,8 +74,8 @@ static void	*philosopher(void *param)
 		print_status(philo, SLEEPING);
 		usleep(philo->data->sleep_time);
 		print_status(philo, THINKING);
-		if (philo->data->philo_nbr % 2 != 0 && philo->index % 2 != 0)
-			usleep(500);
+		// if (philo->data->philo_nbr % 2 != 0 && philo->index % 2 != 0)
+		// 	usleep(500);
 	}
 	return (NULL);
 }

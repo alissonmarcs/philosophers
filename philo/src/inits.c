@@ -18,7 +18,7 @@ void	init_data(t_data *data, char **argv)
 	assign_forks(data);
 	pthread_mutex_init(&data->print_mtx, NULL);
 	data->philos_running_cont = 0;
-	data->start_time = get_time();
+	//data->start_time = get_time();
 	init_philos(data);
 	pthread_mutex_unlock(&data->data_mtx);
 	//debug(data);
@@ -82,7 +82,7 @@ static void	init_philos(t_data *data)
 		current = data->philos + i;
 		current->index = i + 1;
 		current->data = data;
-		current->last_eat_start_time = data->start_time;
+		//current->last_eat_start_time = data->start_time;
 		current->eat_count = 0;
 		current->full = false;
 		pthread_mutex_init(&current->philo_mtx, NULL);
