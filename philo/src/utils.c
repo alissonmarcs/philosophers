@@ -47,9 +47,10 @@ void	simulate_single_philosopher(t_data *data)
 	t_philo		*philo;
 
 	philo = data->philos;
+	setter_long(&data->data_mtx, &data->start_time, get_time());
 	pthread_mutex_lock(&philo->own->mtx);
 	print_status(philo, TAKEN_FORK);
 	usleep(data->die_time * 1000);
-	print_status(philo, DIED);
 	pthread_mutex_unlock(&philo->own->mtx);
+	print_status(philo, DIED);
 }

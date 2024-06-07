@@ -82,7 +82,6 @@ static void	init_philos(t_data *data)
 		current = data->philos + i;
 		current->index = i + 1;
 		current->data = data;
-		//current->last_eat_start_time = data->start_time;
 		current->eat_count = 0;
 		current->full = false;
 		pthread_mutex_init(&current->philo_mtx, NULL);
