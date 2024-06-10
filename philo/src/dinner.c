@@ -63,14 +63,16 @@ void	eat(t_philo *philo)
 static void	*philosopher(void *param)
 {
 	t_philo *philo;
+	long	tmp;
 
 	philo = (t_philo *) param;
+	tmp = (philo->data->eat_time * 2 - philo->data->sleep_time) * 0.42;
 	while (!getter_bool(&philo->data->data_mtx, &philo->data->monitor_run))
 		;
 	setter_long(&philo->philo_mtx, &philo->last_eat_start_time, philo->data->start_time);
 	increase_long(&philo->data->data_mtx, &philo->data->philos_running_cont);
-	if (philo->index % 2 != 0)
-		usleep(1000);
+	if (philo->index % 2)
+		usleep(1000 * 3);
 	while (true)
 	{
 		if (getter_bool(&philo->data->data_mtx, &philo->data->philo_died))
@@ -81,8 +83,8 @@ static void	*philosopher(void *param)
 		print_status(philo, SLEEPING);
 		usleep(philo->data->sleep_time);
 		print_status(philo, THINKING);
-		if (philo->data->philo_nbr % 2 != 0 && philo->index % 2 != 0)
-			usleep((1000 * 15) * 0.42);
+		// if (philo->index % 2 == 0)
+		// 	usleep(tmp);
 	}
 	return (NULL);
 }

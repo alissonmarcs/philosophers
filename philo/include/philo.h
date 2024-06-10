@@ -73,6 +73,7 @@ long			get_time_since_init(t_data *data);
 void			dinner(t_data *data);
 void			simulate_single_philosopher(t_data *data);
 
+bool			simulation_status(t_data *data);
 bool			getter_bool(pthread_mutex_t *mtx, bool *ptr);
 long			getter_long(pthread_mutex_t *mtx, long *ptr);
 void			setter_bool(pthread_mutex_t *mtx, bool *ptr, bool value);
