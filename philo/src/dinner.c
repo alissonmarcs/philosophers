@@ -28,34 +28,34 @@ void	dinner(t_data *data)
 
 void	eat(t_philo *philo)
 {
-	if (philo->index % 2 == 0)
-	{
+	// if (philo->index % 2 == 0)
+	// {
 		pthread_mutex_lock(&philo->own->mtx);
 		print_status(philo, TAKEN_FORK);
 		pthread_mutex_lock(&philo->additional->mtx);
 		print_status(philo, TAKEN_FORK);
-	}
-	else
-	{
-		pthread_mutex_lock(&philo->additional->mtx);
-		print_status(philo, TAKEN_FORK);
-		pthread_mutex_lock(&philo->own->mtx);
-		print_status(philo, TAKEN_FORK);
-	}
+	// }
+	// else
+	// {
+	// 	pthread_mutex_lock(&philo->additional->mtx);
+	// 	print_status(philo, TAKEN_FORK);
+	// 	pthread_mutex_lock(&philo->own->mtx);
+	// 	print_status(philo, TAKEN_FORK);
+	// }
 	increase_long(&philo->philo_mtx, &philo->eat_count);
 	setter_long(&philo->philo_mtx, &philo->last_eat_start_time, get_time());
 	print_status(philo, EATING);
 	usleep(philo->data->eat_time);
-	if (philo->index % 2 == 0)
-	{
+	// if (philo->index % 2 == 0)
+	// {
 		pthread_mutex_unlock(&philo->own->mtx);
 		pthread_mutex_unlock(&philo->additional->mtx);
-	}
-	else
-	{
-		pthread_mutex_unlock(&philo->additional->mtx);
-		pthread_mutex_unlock(&philo->own->mtx);			
-	}
+	// }
+	// else
+	// {
+	// 	pthread_mutex_unlock(&philo->additional->mtx);
+	// 	pthread_mutex_unlock(&philo->own->mtx);			
+	// }
 	if (getter_long(&philo->philo_mtx, &philo->eat_count) == philo->data->max_meals)
 		setter_bool(&philo->philo_mtx, &philo->full, true);
 }
