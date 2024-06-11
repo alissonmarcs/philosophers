@@ -28,34 +28,34 @@ void	dinner(t_data *data)
 
 void	eat(t_philo *philo)
 {
-	// if (philo->index % 2 == 0)
-	// {
+	if (philo->index % 2 == 0)
+	{
 		pthread_mutex_lock(&philo->own->mtx);
 		print_status(philo, TAKEN_FORK);
 		pthread_mutex_lock(&philo->additional->mtx);
 		print_status(philo, TAKEN_FORK);
-	// }
-	// else
-	// {
-	// 	pthread_mutex_lock(&philo->additional->mtx);
-	// 	print_status(philo, TAKEN_FORK);
-	// 	pthread_mutex_lock(&philo->own->mtx);
-	// 	print_status(philo, TAKEN_FORK);
-	// }
+	}
+	else
+	{
+		pthread_mutex_lock(&philo->additional->mtx);
+		print_status(philo, TAKEN_FORK);
+		pthread_mutex_lock(&philo->own->mtx);
+		print_status(philo, TAKEN_FORK);
+	}
 	increase_long(&philo->philo_mtx, &philo->eat_count);
 	setter_long(&philo->philo_mtx, &philo->last_eat_start_time, get_time());
 	print_status(philo, EATING);
 	usleep(philo->data->eat_time);
-	// if (philo->index % 2 == 0)
-	// {
+	if (philo->index % 2 == 0)
+	{
 		pthread_mutex_unlock(&philo->own->mtx);
 		pthread_mutex_unlock(&philo->additional->mtx);
-	// }
-	// else
-	// {
-	// 	pthread_mutex_unlock(&philo->additional->mtx);
-	// 	pthread_mutex_unlock(&philo->own->mtx);			
-	// }
+	}
+	else
+	{
+		pthread_mutex_unlock(&philo->additional->mtx);
+		pthread_mutex_unlock(&philo->own->mtx);			
+	}
 	if (getter_long(&philo->philo_mtx, &philo->eat_count) == philo->data->max_meals)
 		setter_bool(&philo->philo_mtx, &philo->full, true);
 }
@@ -66,12 +66,12 @@ static void	*philosopher(void *param)
 	long	tmp;
 
 	philo = (t_philo *) param;
-	tmp = (philo->data->eat_time * 2 - philo->data->sleep_time) * 0.42;
+	tmp = (philo->data->eat_time * 2 - philo->data->sleep_time) * 0.50;
 	while (!getter_bool(&philo->data->data_mtx, &philo->data->monitor_run))
 		;
 	setter_long(&philo->philo_mtx, &philo->last_eat_start_time, philo->data->start_time);
 	increase_long(&philo->data->data_mtx, &philo->data->philos_running_cont);
-	if (philo->index % 2)
+	if (philo->index % 2 == 0 && philo->data->philo_nbr % 2 == 0)
 		usleep(1000 * 3);
 	while (true)
 	{
@@ -83,8 +83,8 @@ static void	*philosopher(void *param)
 		print_status(philo, SLEEPING);
 		usleep(philo->data->sleep_time);
 		print_status(philo, THINKING);
-		// if (philo->index % 2 == 0)
-		// 	usleep(tmp);
+		if (philo->data->philo_nbr % 2 != 0 && philo->index % 2 != 0)
+			usleep(tmp);
 	}
 	return (NULL);
 }

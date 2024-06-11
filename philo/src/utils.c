@@ -52,5 +52,6 @@ void	simulate_single_philosopher(t_data *data)
 	print_status(philo, TAKEN_FORK);
 	usleep(data->die_time * 1000);
 	pthread_mutex_unlock(&philo->own->mtx);
+	setter_bool(&data->data_mtx, &data->philo_died, true);
 	print_status(philo, DIED);
 }
