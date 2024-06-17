@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_args.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: almarcos <almarcos@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/17 07:18:41 by almarcos          #+#    #+#             */
+/*   Updated: 2024/06/17 07:18:44 by almarcos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philo.h>
 
 static void	print_helper(void);
@@ -37,9 +49,9 @@ static void	print_helper(void)
 	printf("%s[number_of_philosophers] [time_to_die] [time_to_eat]"
 		" [time_to_sleep] [number_of_times_each_philosopher_must_eat]", BLUE);
 	printf(" %s(optional)\n", WHITE);
-	printf("%sValue for %s[number_of_philosophers]%s must be between 1 and 200"
-		".\n", YELLOW, BLUE, YELLOW);
-	printf("Values for %s[time_to_die] [time_to_eat] %sand %s[time_to_sleep] "
+	printf("%s[number_of_philosophers]%s must be between 1 and 200"
+		".\n", BLUE, YELLOW);
+	printf("%s[time_to_die] [time_to_eat] %sand %s[time_to_sleep] "
 		"%swill be considered in milliseconds and minimum value for them "
 		"are 60.\n%s", BLUE, YELLOW, BLUE, YELLOW, RESET);
 }

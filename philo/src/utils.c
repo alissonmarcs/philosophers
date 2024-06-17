@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: almarcos <almarcos@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/17 07:19:36 by almarcos          #+#    #+#             */
+/*   Updated: 2024/06/17 07:19:37 by almarcos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philo.h>
 
 long	get_time(void)
@@ -54,4 +66,9 @@ void	simulate_single_philosopher(t_data *data)
 	pthread_mutex_unlock(&philo->own->mtx);
 	setter_bool(&data->data_mtx, &data->philo_died, true);
 	print_status(philo, DIED);
+}
+
+bool	simulation_status(t_data *data)
+{
+	return (getter_bool(&data->data_mtx, &data->philo_died));
 }

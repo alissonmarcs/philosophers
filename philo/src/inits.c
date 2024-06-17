@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   inits.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: almarcos <almarcos@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/06/17 07:19:03 by almarcos          #+#    #+#             */
+/*   Updated: 2024/06/17 07:19:05 by almarcos         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philo.h>
 
 static void	init_forks(t_data *data);
@@ -10,25 +22,23 @@ void	init_data(t_data *data, char **argv)
 	pthread_mutex_init(&data->data_mtx, NULL);
 	pthread_mutex_lock(&data->data_mtx);
 	save_argv(data, argv);
-	data->philos = malloc(sizeof (t_philo) * data->philo_nbr);
-	data->forks = malloc(sizeof (t_fork) * data->fork_nbr);
+	data->philos = malloc(sizeof(t_philo) * data->philo_nbr);
+	data->forks = malloc(sizeof(t_fork) * data->fork_nbr);
 	data->monitor_run = false;
 	data->philo_died = false;
 	init_forks(data);
 	assign_forks(data);
 	pthread_mutex_init(&data->print_mtx, NULL);
 	data->philos_running_cont = 0;
-	//data->start_time = get_time();
 	init_philos(data);
 	pthread_mutex_unlock(&data->data_mtx);
-	//debug(data);
 }
 
 static void	assign_forks(t_data *data)
 {
-	int 		i;
-	t_philo		*current_philo;
-	t_fork		*current_fork;
+	int		i;
+	t_philo	*current_philo;
+	t_fork	*current_fork;
 
 	i = data->fork_nbr - 1;
 	while (i >= 0)
@@ -46,8 +56,8 @@ static void	assign_forks(t_data *data)
 
 static void	init_forks(t_data *data)
 {
-	int			i;
-	t_fork		*current;
+	int		i;
+	t_fork	*current;
 
 	i = -1;
 	while (++i < data->fork_nbr)
@@ -73,8 +83,8 @@ static void	save_argv(t_data *data, char **argv)
 
 static void	init_philos(t_data *data)
 {
-	int			i;
-	t_philo		*current;
+	int		i;
+	t_philo	*current;
 
 	i = -1;
 	while (++i < data->philo_nbr)
