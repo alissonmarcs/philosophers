@@ -21,7 +21,7 @@ void	print_status(t_philo *philo, t_status status)
 {
 	long	time;
 
-	if (getter_bool(&philo->philo_mtx, &philo->full))
+	if (get_bool(&philo->philo_mtx, &philo->full))
 		return ;
 	pthread_mutex_lock(&philo->data->print_mtx);
 	time = get_time_since_init(philo->data);

@@ -12,7 +12,7 @@
 
 #include <philo.h>
 
-bool	getter_bool(pthread_mutex_t *mtx, bool *ptr)
+bool	get_bool(pthread_mutex_t *mtx, bool *ptr)
 {
 	bool	tmp;
 
@@ -22,7 +22,7 @@ bool	getter_bool(pthread_mutex_t *mtx, bool *ptr)
 	return (tmp);
 }
 
-long	getter_long(pthread_mutex_t *mtx, long *ptr)
+long	get_long(pthread_mutex_t *mtx, long *ptr)
 {
 	long	tmp;
 
@@ -32,14 +32,14 @@ long	getter_long(pthread_mutex_t *mtx, long *ptr)
 	return (tmp);
 }
 
-void	setter_bool(pthread_mutex_t *mtx, bool *ptr, bool value)
+void	set_bool(pthread_mutex_t *mtx, bool *ptr, bool value)
 {
 	pthread_mutex_lock(mtx);
 	*ptr = value;
 	pthread_mutex_unlock(mtx);
 }
 
-void	setter_long(pthread_mutex_t *mtx, long *ptr, long value)
+void	set_long(pthread_mutex_t *mtx, long *ptr, long value)
 {
 	pthread_mutex_lock(mtx);
 	*ptr = value;

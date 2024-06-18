@@ -40,8 +40,8 @@ static void	assign_forks(t_data *data)
 	t_philo	*current_philo;
 	t_fork	*current_fork;
 
-	i = data->fork_nbr - 1;
-	while (i >= 0)
+	i = data->fork_nbr;
+	while (--i >= 0)
 	{
 		current_philo = data->philos + i;
 		current_fork = data->forks + i;
@@ -50,7 +50,6 @@ static void	assign_forks(t_data *data)
 			current_philo->additional = current_fork + (data->philo_nbr - 1);
 		else
 			current_philo->additional = current_fork - 1;
-		--i;
 	}
 }
 

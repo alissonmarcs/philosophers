@@ -39,16 +39,16 @@ struct					s_data
 {
 	int					philo_nbr;
 	int					fork_nbr;
-	bool				philo_died;
 	int					max_meals;
-	long				philos_running_cont;
 	long				start_time;
 	long				die_time;
 	long				eat_time;
 	long				sleep_time;
+	long				philos_running_cont;
 	pthread_mutex_t		print_mtx;
 	pthread_mutex_t		data_mtx;
 	pthread_t			monitor;
+	bool				philo_died;
 	bool				monitor_run;
 	t_philo				*philos;
 	t_fork				*forks;
@@ -58,7 +58,7 @@ struct					s_philo
 {
 	int					index;
 	long				eat_count;
-	long				last_eat_start_time;
+	long				last_eat;
 	bool				full;
 	t_status			status;
 	t_fork				*own;
@@ -83,15 +83,16 @@ void					debug(t_data *data);
 void					clear(t_data *data);
 void					dinner(t_data *data);
 void					simulate_single_philosopher(t_data *data);
-
 bool					simulation_status(t_data *data);
-bool					getter_bool(pthread_mutex_t *mtx, bool *ptr);
-long					getter_long(pthread_mutex_t *mtx, long *ptr);
-void					setter_bool(pthread_mutex_t *mtx, bool *ptr,
+bool					get_bool(pthread_mutex_t *mtx, bool *ptr);
+long					get_long(pthread_mutex_t *mtx, long *ptr);
+void					set_bool(pthread_mutex_t *mtx, bool *ptr,
 							bool value);
-void					setter_long(pthread_mutex_t *mtx, long *ptr,
+void					set_long(pthread_mutex_t *mtx, long *ptr,
 							long value);
 void					increase_long(pthread_mutex_t *mtx, long *ptr);
+void					eat(t_philo *philo);
+void					*philosopher(void *param);
 
 # define YELLOW "\001\033[1;33m\002"
 # define GREEN "\001\033[1;32m\002"
