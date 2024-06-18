@@ -3,8 +3,8 @@ CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
 OBJECTS_FOLDER = ./obj/
 HEADERS = ./include/
 
-MANDATORY_SOURCES = main.c print_status.c utils.c check_args.c inits.c debug.c \
-					dinner.c getters_setters.c
+MANDATORY_SOURCES = main.c print_status.c utils.c check_args.c inits.c \
+					dinner.c getters_setters.c philosopher.c philosopher_utils.c
 
 MANDATORY_OBJECTS = $(addprefix $(OBJECTS_FOLDER),$(MANDATORY_SOURCES:.c=.o))
 
