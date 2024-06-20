@@ -59,7 +59,7 @@ static void	*monitor(void *param)
 				&philo->last_eat) > data->die_time)
 		{
 			set_bool(&data->data_mtx, &data->philo_died, true);
-			print_status(philo, DIED);
+			print_status(philo, DIED, DEBUG_MODE);
 			break ;
 		}
 		if (i == 0)

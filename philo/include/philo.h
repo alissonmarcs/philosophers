@@ -21,6 +21,8 @@
 # include <sys/time.h>
 # include <unistd.h>
 
+# define DEBUG_MODE 1
+
 typedef struct s_data	t_data;
 typedef struct s_fork	t_fork;
 typedef struct s_philo	t_philo;
@@ -29,11 +31,14 @@ typedef enum e_status	t_status;
 enum					e_status
 {
 	TAKEN_FORK,
+	TAKEN_OWN_FORK,
+	TAKEN_ADITTIONAL_FORK,
 	EATING,
 	SLEEPING,
 	THINKING,
 	DIED
 };
+
 
 struct					s_data
 {
@@ -74,7 +79,7 @@ struct					s_fork
 	pthread_mutex_t		mtx;
 };
 
-void					print_status(t_philo *philo, t_status status);
+void					print_status(t_philo *philo, t_status status, bool debug);
 long					get_time(void);
 long					ft_atol(const char *str);
 bool					check_argv(int argc, char **argv);

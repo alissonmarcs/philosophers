@@ -38,7 +38,7 @@ void	*philosopher(void *param)
 
 static void	sleeping(t_philo *philo)
 {
-	print_status(philo, SLEEPING);
+	print_status(philo, SLEEPING, DEBUG_MODE);
 	usleep(philo->data->sleep_time);
 }
 
@@ -47,7 +47,7 @@ static void	thinking(t_philo *philo)
 	long	tmp1;
 	long	tmp2;
 
-	print_status(philo, THINKING);
+	print_status(philo, THINKING, DEBUG_MODE);
 	if (philo->data->philo_nbr % 2 != 0 && philo->index % 2 != 0)
 	{
 		tmp1 = (philo->data->eat_time * 2 - philo->data->sleep_time) * 0.42;

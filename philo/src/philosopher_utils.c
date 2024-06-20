@@ -19,7 +19,7 @@ void	eat(t_philo *philo)
 {
 	get_forks(philo);
 	set_long(&philo->philo_mtx, &philo->last_eat, get_time());
-	print_status(philo, EATING);
+	print_status(philo, EATING, DEBUG_MODE);
 	increase_long(&philo->philo_mtx, &philo->eat_count);
 	usleep(philo->data->eat_time);
 	release_forks(philo);
@@ -33,16 +33,16 @@ static void	get_forks(t_philo *philo)
 	if (philo->index % 2 == 0)
 	{
 		pthread_mutex_lock(&philo->own->mtx);
-		print_status(philo, TAKEN_FORK);
+		print_status(philo, TAKEN_OWN_FORK, DEBUG_MODE);
 		pthread_mutex_lock(&philo->additional->mtx);
-		print_status(philo, TAKEN_FORK);
+		print_status(philo, TAKEN_ADITTIONAL_FORK, DEBUG_MODE);
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->additional->mtx);
-		print_status(philo, TAKEN_FORK);
+		print_status(philo, TAKEN_ADITTIONAL_FORK, DEBUG_MODE);
 		pthread_mutex_lock(&philo->own->mtx);
-		print_status(philo, TAKEN_FORK);
+		print_status(philo, TAKEN_OWN_FORK, DEBUG_MODE);
 	}
 }
 

@@ -61,11 +61,11 @@ void	simulate_single_philosopher(t_data *data)
 	philo = data->philos;
 	set_long(&data->data_mtx, &data->start_time, get_time());
 	pthread_mutex_lock(&philo->own->mtx);
-	print_status(philo, TAKEN_FORK);
+	print_status(philo, TAKEN_OWN_FORK, DEBUG_MODE);
 	usleep(data->die_time * 1000);
 	pthread_mutex_unlock(&philo->own->mtx);
 	set_bool(&data->data_mtx, &data->philo_died, true);
-	print_status(philo, DIED);
+	print_status(philo, DIED, DEBUG_MODE);
 }
 
 bool	simulation_status(t_data *data)
