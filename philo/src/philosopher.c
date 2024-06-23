@@ -14,26 +14,32 @@
 
 static void	sleeping(t_philo *philo);
 static void	thinking(t_philo *philo);
+static void wait_start_time_be_set(t_data *data);
 
 void	*philosopher(void *param)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *)param;
-	while (!get_bool(&philo->data->data_mtx, &philo->data->monitor_run))
-		;
+	wait_start_time_be_set(philo->data);
 	set_long(&philo->philo_mtx, &philo->last_eat, philo->data->start_time);
 	increase_long(&philo->data->data_mtx, &philo->data->philos_running_cont);
 	if (philo->index % 2 == 0 && philo->data->philo_nbr % 2 == 0)
 		usleep(1000 * 3);
-	while (!simulation_status(philo->data) && !get_bool(&philo->philo_mtx,
-			&philo->full))
+	while (!simulation_status(philo->data) &&
+			!get_bool(&philo->philo_mtx, &philo->full))
 	{
 		eat(philo);
 		sleeping(philo);
 		thinking(philo);
 	}
 	return (NULL);
+}
+
+static void wait_start_time_be_set(t_data *data)
+{
+	while (!get_bool(&data->data_mtx, &data->start_time_set))
+		;
 }
 
 static void	sleeping(t_philo *philo)
@@ -45,13 +51,11 @@ static void	sleeping(t_philo *philo)
 static void	thinking(t_philo *philo)
 {
 	long	tmp1;
-	long	tmp2;
 
 	print_status(philo, THINKING);
 	if (philo->data->philo_nbr % 2 != 0 && philo->index % 2 != 0)
 	{
 		tmp1 = (philo->data->eat_time * 2 - philo->data->sleep_time) * 0.42;
-		tmp2 = philo->data->eat_time / 2;
 		usleep(tmp1);
 	}
 }

@@ -27,8 +27,8 @@ void	dinner(t_data *data)
 			pthread_create(&data->philos[i].th_id, NULL, philosopher,
 				&data->philos[i]);
 		set_long(&data->data_mtx, &data->start_time, get_time());
+		set_bool(&data->data_mtx, &data->start_time_set, true);
 		pthread_create(&data->monitor, NULL, monitor, data);
-		set_bool(&data->data_mtx, &data->monitor_run, true);
 		i = data->philo_nbr;
 		while (--i >= 0)
 			pthread_join(data->philos[i].th_id, NULL);
@@ -79,7 +79,7 @@ static bool	is_all_running(t_data *data)
 	bool	tmp;
 
 	pthread_mutex_lock(&data->data_mtx);
-	tmp = (data->philos_running_cont == data->philo_nbr);
+	tmp = data->philos_running_cont == data->philo_nbr;
 	pthread_mutex_unlock(&data->data_mtx);
 	return (tmp);
 }

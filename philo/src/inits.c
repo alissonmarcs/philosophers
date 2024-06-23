@@ -24,7 +24,7 @@ void	init_data(t_data *data, char **argv)
 	save_argv(data, argv);
 	data->philos = malloc(sizeof(t_philo) * data->philo_nbr);
 	data->forks = malloc(sizeof(t_fork) * data->fork_nbr);
-	data->monitor_run = false;
+	data->start_time_set = false;
 	data->philo_died = false;
 	init_forks(data);
 	assign_forks(data);

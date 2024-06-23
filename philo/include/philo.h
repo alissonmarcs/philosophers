@@ -49,7 +49,7 @@ struct					s_data
 	pthread_mutex_t		data_mtx;
 	pthread_t			monitor;
 	bool				philo_died;
-	bool				monitor_run;
+	bool				start_time_set;
 	t_philo				*philos;
 	t_fork				*forks;
 };
