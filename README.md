@@ -15,5 +15,5 @@
 git clone https://github.com/alissonmarcs/philosophers
 cd philo
 make
-./philo
+./philo [number_of_philos] [time_to_die] [time_to_eat] [time_to_sleep]
 ```
