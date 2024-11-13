@@ -46,5 +46,6 @@ In the above example, the philosophers will not die.
 ./philo 5 400 300 100
 ```
 
-Every philosopher will take 300 ms to eat, but if any philosopher wait more than 400 ms to eat, it will die. In
-the above example, the philosophers will die.
+Every philosopher will take 300 ms to eat. If any philosopher wait more than 400 ms to eat
+(because its neighbors is currently eating, so holding two forks), it will die. In the above example, the
+philosophers will die.
