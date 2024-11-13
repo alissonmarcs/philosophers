@@ -1,5 +1,5 @@
 NAME = philo
-CFLAGS = -Wall -Werror -Wextra -g3 -fsanitize=thread
+CFLAGS = -Wall -Werror -Wextra -g3 
 OBJECTS_FOLDER = ./obj/
 HEADERS = ./include/
 
